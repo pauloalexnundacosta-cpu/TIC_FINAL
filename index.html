@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Portfólio de Técnico de Gestão e Programação de Sistemas Informáticos — Desenvolvimento Front-End">
+  <title>Portfólio | TG-PSI</title>
+
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       CSS RESET & CUSTOM PROPERTIES
+       ============================================================ */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-card: #16161f;
+      --bg-card-hover: #1c1c28;
+      --border: #222230;
+      --text-primary: #e8e8ed;
+      --text-secondary: #a0a0b0;
+      --text-muted: #6b6b7d;
+      --accent-cyan: #06b6d4;
+      --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+      --accent-blue: #3b82f6;
+      --accent-gradient: linear-gradient(135deg, #06b6d4, #3b82f6);
+      --accent-gradient-text: linear-gradient(135deg, #06b6d4, #60a5fa);
+      --navbar-height: 70px;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.3s ease;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-heading: 'Poppins', system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ============================================================
+       NAVBAR — Fixa no topo
+       ============================================================ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--navbar-height);
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .navbar__container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar__logo {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.35rem;
+      text-decoration: none;
+      background: var(--accent-gradient-text);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    .navbar__links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .navbar__links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .navbar__links a:hover,
+    .navbar__links a:focus-visible {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .navbar__links a::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 20px;
+      height: 2px;
+      background: var(--accent-cyan);
+      border-radius: 2px;
+      transition: transform var(--transition);
+    }
+
+    .navbar__links a:hover::after,
+    .navbar__links a:focus-visible::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+
+    /* Hamburguer (puramente CSS para mobile - menção visual) */
+    .navbar__toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      background: none;
+      border: none;
+    }
+
+    .navbar__toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ============================================================
+       PAGE SYSTEM — Navegação por :target (PURO CSS, SEM JS)
+       ============================================================ */
+    .page {
+      display: none;
+      padding-top: var(--navbar-height);
+      min-height: 100vh;
+    }
+
+    .page:target {
+      display: block;
+      animation: pageFadeIn 0.45s ease;
+    }
+
+    /* Home visível por defeito quando nada está em :target */
+    body:not(:has(.page:target)) #home {
+      display: block;
+    }
+
+    #home:target {
+      display: block;
+    }
+
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================================
+       CONTAINER
+       ============================================================ */
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============================================================
+       SECTION HEADERS
+       ============================================================ */
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header__tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 12px;
+      padding: 6px 16px;
+      border: 1px solid var(--accent-cyan-glow);
+      border-radius: 20px;
+      background: rgba(6, 182, 212, 0.06);
+    }
+
+    .section-header__title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.75rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+    }
+
+    .section-header__subtitle {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      margin-top: 8px;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ============================================================
+       PAGE PADDING
+       ============================================================ */
+    .page__inner {
+      padding: 60px 0 80px;
+    }
+
+    /* ============================================================
+       HOME PAGE
+       ============================================================ */
+    #home .page__inner {
+      display: flex;
+      align-items: center;
+      min-height: calc(100vh - var(--navbar-height));
+      padding: 40px 0;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero__content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      padding: 8px 18px;
+      border-radius: 24px;
+      width: fit-content;
+    }
+
+    .hero__badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.6);
+      }
+    }
+
+    .hero__title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+    }
+
+    .hero__title span {
+      background: var(--accent-gradient-text);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero__desc {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    .hero__cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 13px 28px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn--primary {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--accent-cyan-glow);
+    }
+
+    .btn--primary:hover {
+      box-shadow: 0 6px 30px rgba(6, 182, 212, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn--outline:hover {
+      border-color: var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.05);
+    }
+
+    .hero__visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* PLACEHOLDER: Substituir por <img> com a tua foto */
+    .hero__avatar {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 3px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 60px var(--accent-cyan-glow);
+    }
+
+    .hero__avatar::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      z-index: -1;
+      opacity: 0.4;
+      filter: blur(12px);
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    .hero__avatar-placeholder {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .hero__avatar-placeholder .icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .hero__stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 8px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero__stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero__stat-number {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.6rem;
+      background: var(--accent-gradient-text);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero__stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       SOBRE PAGE
+       ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about__text h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .about__text p {
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      font-size: 0.98rem;
+    }
+
+    .about__text p strong {
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    /* PLACEHOLDER: Substituir pela imagem de competências */
+    .about__visual {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+    }
+
+    .about__visual-placeholder {
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .about__visual-placeholder .icon {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* Skill tags */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .skill-tag {
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: rgba(6, 182, 212, 0.08);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.15);
+      transition: var(--transition);
+    }
+
+    .skill-tag:hover {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--accent-cyan);
+    }
+
+    /* Timeline */
+    .timeline {
+      margin-top: 48px;
+    }
+
+    .timeline h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .timeline__item {
+      display: flex;
+      gap: 18px;
+      padding-bottom: 28px;
+      position: relative;
+    }
+
+    .timeline__item::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline__item:last-child::before {
+      display: none;
+    }
+
+    .timeline__dot {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .timeline__info h4 {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .timeline__info span {
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+      font-weight: 500;
+    }
+
+    .timeline__info p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       SERVIÇOS PAGE
+       ============================================================ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-gradient);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(6, 182, 212, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .service-card__icon {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ============================================================
+       PORTFÓLIO PAGE
+       ============================================================ */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .portfolio-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .portfolio-card:hover {
+      border-color: rgba(6, 182, 212, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    .portfolio-card__thumb {
+      height: 180px;
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .portfolio-card__body {
+      padding: 22px 20px;
+    }
+
+    .portfolio-card__body h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .portfolio-card__body p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .portfolio-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .portfolio-card__tags span {
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: rgba(6, 182, 212, 0.08);
+      color: var(--accent-cyan);
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       BLOG PAGE
+       ============================================================ */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .blog-card:hover {
+      border-color: rgba(6, 182, 212, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .blog-card__thumb {
+      height: 160px;
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .blog-card__body {
+      padding: 20px;
+    }
+
+    .blog-card__date {
+      font-size: 0.78rem;
+      color: var(--accent-cyan);
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .blog-card__body h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .blog-card__body p {
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .blog-card__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      margin-top: 10px;
+      transition: var(--transition);
+    }
+
+    .blog-card__link:hover {
+      gap: 10px;
+    }
+
+    /* ============================================================
+       CONTACTO PAGE
+       ============================================================ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    .contact__info h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .contact__info p {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-size: 0.98rem;
+    }
+
+    .contact__item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .contact__item .icon {
+      font-size: 1.3rem;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(6, 182, 212, 0.08);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .contact__item strong {
+      color: var(--text-primary);
+    }
+
+    .contact__form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+    }
+
+    .form-group textarea {
+      min-height: 130px;
+    }
+
+    /* ============================================================
+       FAQ PAGE
+       ============================================================ */
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item:hover {
+      border-color: rgba(6, 182, 212, 0.25);
+    }
+
+    /* FAQ accordion com details/summary — PURO HTML */
+    .faq-item details {
+      cursor: pointer;
+    }
+
+    .faq-item summary {
+      list-style: none;
+      padding: 20px 24px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--accent-cyan);
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+
+    .faq-item details[open] summary::after {
+      content: '−';
+      transform: rotate(180deg);
+    }
+
+    .faq-item details[open] summary {
+      color: var(--accent-cyan);
+    }
+
+    .faq-item .faq-answer {
+      padding: 0 24px 20px;
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      text-align: center;
+    }
+
+    .footer__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer p strong {
+      color: var(--accent-cyan);
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer__links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: var(--transition);
+    }
+
+    .footer__links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero__content {
+        align-items: center;
+      }
+
+      .hero__desc {
+        max-width: 100%;
+      }
+
+      .hero__stats {
+        justify-content: center;
+      }
+
+      .hero__avatar {
+        width: 200px;
+        height: 200px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .navbar__links {
+        gap: 0;
+      }
+
+      .navbar__links a {
+        font-size: 0.78rem;
+        padding: 6px 10px;
+      }
+
+      .navbar__logo {
+        font-size: 1.1rem;
+      }
+
+      .services-grid,
+      .portfolio-grid,
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero__stats {
+        gap: 20px;
+      }
+
+      .hero__stat-number {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar__links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .navbar__links a {
+        font-size: 0.72rem;
+        padding: 5px 8px;
+      }
+
+      .navbar__container {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 16px;
+      }
+
+      .navbar {
+        height: auto;
+        min-height: 60px;
+      }
+
+      .page {
+        padding-top: 110px;
+      }
+
+      :root {
+        --navbar-height: 100px;
+      }
+
+      .hero__cta {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .btn {
+        justify-content: center;
+      }
+    }
+
+    /* ============================================================
+       UTILITIES
+       ============================================================ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    ::selection {
+      background: rgba(6, 182, 212, 0.3);
+      color: #fff;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-cyan);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================================
+       NAVBAR
+       ========================================================== -->
+  <nav class="navbar" role="navigation" aria-label="Navegação principal">
+    <div class="navbar__container">
+      <a href="#home" class="navbar__logo" aria-label="Ir para Home">&lt;TG-PSI /&gt;</a>
+      <ul class="navbar__links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contato">Contactos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==========================================================
+       PÁGINA 1 — HOME
+       ========================================================== -->
+  <section class="page" id="home">
+    <div class="page__inner">
+      <div class="container">
+        <div class="hero">
+          <div class="hero__content">
+            <div class="hero__badge">Disponível para projetos</div>
+            <h1 class="hero__title">
+              Transformo ideias em <span>Sites</span>
+            </h1>
+            <p class="hero__desc">
+              Técnico de Gestão e Programação de Sistemas Informáticos com foco em desenvolvimento Front-End.
+              Crio sites modernos, responsivos e com código limpo — alinhados com as tuas necessidades.
+            </p>
+            <div class="hero__stats">
+              <div class="hero__stat">
+                <span class="hero__stat-number">3+</span>
+                <span class="hero__stat-label">Anos de formação</span>
+              </div>
+              <div class="hero__stat">
+                <span class="hero__stat-number">7+</span>
+                <span class="hero__stat-label">Tecnologias</span>
+              </div>
+              <div class="hero__stat">
+                <span class="hero__stat-number">10+</span>
+                <span class="hero__stat-label">Projetos</span>
+              </div>
+            </div>
+            <div class="hero__cta">
+              <a href="#portfolio" class="btn btn--primary">Ver Portfólio →</a>
+              <a href="#contato" class="btn btn--outline">Falar Comigo</a>
+            </div>
+          </div>
+          <div class="hero__visual">
+            <img src="fotodosite.jpg" alt="Foto de perfil" class="hero__avatar-img">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       PÁGINA 2 — SOBRE
+       ========================================================== -->
+  <section class="page" id="sobre">
+    <div class="page__inner">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">Sobre Mim</span>
+          <h2 class="section-header__title">Quem sou eu</h2>
+          <p class="section-header__subtitle">
+            Conhece o meu percurso, as minhas competências e como posso ajudar-te.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about__text">
+            <h3>Formação &amp; Propósito</h3>
+            <p>
+              Sou finalista do curso <strong>Técnico de Gestão e Programação de Sistemas Informáticos</strong>,
+              onde ao longo de 3 anos adquiri competências sólidas em programação, bases de dados, redes
+              e desenvolvimento web.
+            </p>
+            <p>
+              O meu foco está no <strong>desenvolvimento Front-End</strong> — criar interfaces limpas,
+              responsivas e acessíveis que proporcionem uma excelente experiência ao utilizador.
+              Acredito que um bom site começa com HTML e CSS bem escritos.
+            </p>
+            <p>
+              Quando trabalho sozinho, sigo uma metodologia organizada: planeamento, estruturação semântica,
+              design minimalista e código comentado — tudo para garantir qualidade e facilidade de manutenção.
+            </p>
+
+            <div class="skill-tags">
+              <span class="skill-tag">HTML5</span>
+              <span class="skill-tag">CSS3</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">PHP</span>
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">C#</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">Figma</span>
+              <span class="skill-tag">Responsive Design</span>
+            </div>
+          </div>
+
+          <!--
+            ╔══════════════════════════════════════╗
+            ║  SUBSTITUIR pela imagem de          ║
+            ║  COMPETÊNCIAS:                      ║
+            ║    ║
+            ╚══════════════════════════════════════╝
+          -->
+          <div class="about__visual">
+            <div class="about__visual-placeholder">
+              <img src="" alt="Mapa de competências">
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+          <h3>Percurso</h3>
+          <div class="timeline__item">
+            <div class="timeline__dot">1</div>
+            <div class="timeline__info">
+              <h4>Início do Curso TG-PSI</h4>
+              <span>2023</span>
+              <p>Introdução à lógica de programação, algoritmia e fundamentos de sistemas informáticos.</p>
+            </div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot">2</div>
+            <div class="timeline__info">
+              <h4>Desenvolvimento Web &amp; Bases de Dados</h4>
+              <span>2024</span>
+              <p>Aprendizagem de HTML, CSS, JavaScript, PHP e SQL. Primeiros projetos práticos full-stack.</p>
+            </div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot">3</div>
+            <div class="timeline__info">
+              <h4>Especialização &amp; Projeto Final</h4>
+              <span>2025 – 2026</span>
+              <p>Foco em Front-End, design responsivo, acessibilidade e entrega do projeto final de curso.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       PÁGINA 3 — SERVIÇOS
+       ========================================================== -->
+  <section class="page" id="servicos">
+    <div class="page__inner">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">Serviços</span>
+          <h2 class="section-header__title">O que posso fazer por ti</h2>
+          <p class="section-header__subtitle">
+            Soluções pensadas para destacar a tua presença online com qualidade e profissionalismo.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <span class="service-card__icon">🎨</span>
+            <h3>Design de Interfaces (UI)</h3>
+            <p>Criação de layouts modernos e intuitivos com foco na experiência do utilizador, seguindo princípios de
+              design minimalista.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-card__icon">💻</span>
+            <h3>Desenvolvimento Front-End</h3>
+            <p>Implementação de sites responsivos com HTML5 semântico, CSS3 avançado e otimização para todos os
+              dispositivos.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-card__icon">📱</span>
+            <h3>Sites Responsivos</h3>
+            <p>Garantia de que o teu site funciona perfeitamente em telemóveis, tablets e desktops — sem quebras de
+              layout.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-card__icon">⚡</span>
+            <h3>Otimização de Performance</h3>
+            <p>Código limpo, carregamento rápido e boas práticas para garantir uma navegação fluida e sem frustrações.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-card__icon">🔧</span>
+            <h3>Manutenção &amp; Atualizações</h3>
+            <p>Suporte contínuo para manter o teu site atualizado, seguro e com o melhor desempenho possível.</p>
+          </div>
+
+          <div class="service-card">
+            <span class="service-card__icon">🗂️</span>
+            <h3>Organização de Código</h3>
+            <p>Código bem estruturado, comentado e documentado para facilitar futuras manutenções e colaborações.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       PÁGINA 4 — PORTFÓLIO
+       ========================================================== -->
+  <section class="page" id="portfolio">
+    <div class="page__inner">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">Portfólio</span>
+          <h2 class="section-header__title">Projetos recentes</h2>
+          <p class="section-header__subtitle">
+            Uma seleção de trabalhos onde aplico as minhas competências de Front-End.
+          </p>
+        </div>
+
+        <div class="portfolio-grid">
+          <div class="portfolio-card">
+            <div class="portfolio-card__thumb">
+              <!-- thumbnail placeholder -->
+              <span>🖼️ Preview do Projeto</span>
+            </div>
+            <div class="portfolio-card__body">
+              <h3>Landing Page Empresarial</h3>
+              <p>Site institucional responsivo com design dark mode e formulário de contacto integrado.</p>
+              <div class="portfolio-card__tags">
+                <span>HTML5</span><span>CSS3</span><span>Responsivo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-card">
+            <div class="portfolio-card__thumb">
+              <span>🖼️ Preview do Projeto</span>
+            </div>
+            <div class="portfolio-card__body">
+              <h3>Dashboard de Dados</h3>
+              <p>Interface administrativa com visualização de dados e painel de controlo interativo.</p>
+              <div class="portfolio-card__tags">
+                <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-card">
+            <div class="portfolio-card__thumb">
+              <span>🖼️ Preview do Projeto</span>
+            </div>
+            <div class="portfolio-card__body">
+              <h3>Blog Pessoal</h3>
+              <p>Blog minimalista com sistema de categorias, pesquisa e artigos dinâmicos.</p>
+              <div class="portfolio-card__tags">
+                <span>HTML5</span><span>CSS3</span><span>PHP</span><span>SQL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-card">
+            <div class="portfolio-card__thumb">
+              <span>🖼️ Preview do Projeto</span>
+            </div>
+            <div class="portfolio-card__body">
+              <h3>E-commerce (Protótipo)</h3>
+              <p>Protótipo de loja online com catálogo de produtos, carrinho e checkout.</p>
+              <div class="portfolio-card__tags">
+                <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-card">
+            <div class="portfolio-card__thumb">
+              <span>🖼️ Preview do Projeto</span>
+            </div>
+            <div class="portfolio-card__body">
+              <h3>Portfólio Fotográfico</h3>
+              <p>Galeria responsiva com lightbox e animações suaves para apresentação de trabalhos visuais.</p>
+              <div class="portfolio-card__tags">
+                <span>HTML5</span><span>CSS3</span><span>Grid</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-card">
+            <div class="portfolio-card__thumb">
+              <span>🖼️ Preview do Projeto</span>
+            </div>
+            <div class="portfolio-card__body">
+              <h3>Formulário Multi-Step</h3>
+              <p>Formulário dividido em etapas com validação e feedback visual ao utilizador.</p>
+              <div class="portfolio-card__tags">
+                <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       PÁGINA 5 — BLOG
+       ========================================================== -->
+  <section class="page" id="blog">
+    <div class="page__inner">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">Blog</span>
+          <h2 class="section-header__title">Artigos &amp; Reflexões</h2>
+          <p class="section-header__subtitle">
+            Partilho conhecimentos, aprendizagens e dicas sobre desenvolvimento web.
+          </p>
+        </div>
+
+        <div class="blog-grid">
+          <article class="blog-card">
+            <div class="blog-card__thumb">
+              <span>📝 Imagem do Artigo</span>
+            </div>
+            <div class="blog-card__body">
+              <span class="blog-card__date">12 de Março, 2026</span>
+              <h3>Como organizar um projeto individual de Front-End do zero</h3>
+              <p>Metodologia que sigo para planear, estruturar e executar projetos sozinho com qualidade.</p>
+              <a href="#" class="blog-card__link">Ler mais →</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-card__thumb">
+              <span>📝 Imagem do Artigo</span>
+            </div>
+            <div class="blog-card__body">
+              <span class="blog-card__date">25 de Fevereiro, 2026</span>
+              <h3>HTML e CSS puros: por que continuam a ser relevantes em 2026</h3>
+              <p>Reflexão sobre a importância de dominar as bases da web antes de partir para frameworks.</p>
+              <a href="#" class="blog-card__link">Ler mais →</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-card__thumb">
+              <span>📝 Imagem do Artigo</span>
+            </div>
+            <div class="blog-card__body">
+              <span class="blog-card__date">8 de Fevereiro, 2026</span>
+              <h3>Dark Mode: como implementar e quais as melhores práticas</h3>
+              <p>Guia prático sobre design em dark mode — contraste, cores e acessibilidade.</p>
+              <a href="#" class="blog-card__link">Ler mais →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       PÁGINA 6 — CONTACTO
+       ========================================================== -->
+  <section class="page" id="contato">
+    <div class="page__inner">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">Contactos</span>
+          <h2 class="section-header__title">Vamos falar?</h2>
+          <p class="section-header__subtitle">
+            Preenche o formulário ou utiliza os Contactos abaixo. Responderei o mais breve possível.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact__info">
+            <h3>Informações de contactos</h3>
+            <p>
+              Estou disponível para projetos freelance, colaborações e oportunidades profissionais.
+              Não hesites em entrar em contacto.
+            </p>
+
+            <div class="contact__item">
+              <span class="icon">📧</span>
+              <div>
+                <strong>Email</strong><br>
+                <span>pauloalexnundacosta@gmail.com</span>
+              </div>
+            </div>
+
+            <div class="contact__item">
+              <span class="icon">📍</span>
+              <div>
+                <strong>Localização</strong><br>
+                <span>Portugal</span>
+              </div>
+            </div>
+
+            <div class="contact__item">
+              <span class="icon">🔗</span>
+              <div>
+                <strong>Redes</strong><br>
+                <span><a href="https://www.linkedin.com/in/paulo-costa-955336397/">LinkedIn</a> / <a
+                    href="https://github.com/pauloalexnundacosta-cpu"> GitHub </a></span>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact__form" action="mailto:teu-email@exemplo.com" method="GET" enctype="text/plain">
+            <div class="form-group">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" placeholder="O teu nome" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="O teu email" required>
+            </div>
+            <div class="form-group">
+              <label for="assunto">Assunto</label>
+              <input type="text" id="assunto" name="assunto" placeholder="Assunto da mensagem">
+            </div>
+            <div class="form-group">
+              <label for="mensagem">Mensagem</label>
+              <textarea id="mensagem" name="mensagem" placeholder="Escreve a tua mensagem aqui..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary" style="width:100%;justify-content:center;">
+              Enviar Mensagem ✉️
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       PÁGINA 7 — FAQ
+       ========================================================== -->
+  <section class="page" id="faq">
+    <div class="page__inner">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">FAQ</span>
+          <h2 class="section-header__title">Perguntas Frequentes</h2>
+          <p class="section-header__subtitle">
+            Respostas às dúvidas mais comuns sobre o meu trabalho e processo.
+          </p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <details>
+              <summary>Que tecnologias utilizas nos teus projetos?</summary>
+              <div class="faq-answer">
+                Trabalho principalmente com <strong>HTML5, CSS3 e JavaScript</strong> para o Front-End.
+                Também tenho conhecimentos em PHP, SQL (bases de dados), Python e C#. Para design,
+                utilizo o Figma e princípios de design responsivo.
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Como organizas o teu trabalho individual?</summary>
+              <div class="faq-answer">
+                Sigo um processo estruturado: <strong>planeamento</strong> (definição de requisitos e esboço),
+                <strong>estruturação semântica</strong> do HTML, <strong>estilização</strong> com CSS organizado
+                por componentes e <strong>revisão final</strong> com testes em vários dispositivos.
+                Mantenho o código limpo, comentado e versionado com Git.
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Fazes sites apenas com HTML e CSS, sem frameworks?</summary>
+              <div class="faq-answer">
+                Sim! Este site que estás a ver foi construído exclusivamente com <strong>HTML e CSS puros</strong>,
+                sem qualquer framework ou JavaScript para a navegação. Acredito que dominar as bases
+                é essencial antes de utilizar frameworks. Consigo entregar sites completos e funcionais
+                apenas com HTML e CSS.
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Os teus sites são responsivos?</summary>
+              <div class="faq-answer">
+                <strong>Sim, sempre.</strong> Todos os sites que crio são testados em telemóveis, tablets e
+                desktops. Utilizo media queries, unidades relativas e layouts flexíveis (Flexbox/Grid)
+                para garantir uma experiência consistente em qualquer ecrã.
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Quanto tempo leva a criar um site?</summary>
+              <div class="faq-answer">
+                Depende da complexidade do projeto. Um site institucional simples (como este) pode levar
+                <strong>1 a 3 dias</strong>. Projetos mais complexos com funcionalidades dinâmicas podem
+                levar algumas semanas. O importante é garantir qualidade em cada etapa.
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Que tipo de projetos já fizeste?</summary>
+              <div class="faq-answer">
+                Durante o curso, desenvolvi <strong>landing pages, dashboards, blogs, protótipos de e-commerce,
+                  formulários multi-step, galerias e sites institucionais</strong>. Todos aplicando boas práticas
+                de HTML semântico, CSS organizado e design responsivo.
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Estás disponível para trabalho freelance?</summary>
+              <div class="faq-answer">
+                <strong>Sim!</strong> Estou disponível para projetos freelance, estágios e colaborações.
+                Se tens um projeto em mente, entra em contacto através da página de <a href="#contato"
+                  style="color: var(--accent-cyan);">Contactos</a>
+                e podemos discutir como posso ajudar.
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FOOTER
+       ========================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <ul class="footer__links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#portfolio">Portfólio</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contato">Contactos</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <p>
+          &copy; 2026 <strong>&lt;TG-PSI /&gt;</strong></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

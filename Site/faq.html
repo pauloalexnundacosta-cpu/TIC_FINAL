@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Portfólio Técnico de Gestão e Programação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00d9ff;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #00d9ff;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #00d9ff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: #00d9ff;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 4rem;
+            text-align: center;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        /* FAQ Categories */
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-btn {
+            padding: 1rem;
+            background-color: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 15px;
+            color: #b0b0b0;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-btn:hover {
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+
+        /* FAQ Items */
+        .faq-section {
+            margin-bottom: 3rem;
+        }
+
+        .faq-section h2 {
+            color: #00d9ff;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #2a2a2a;
+        }
+
+        .faq-item {
+            background-color: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease backwards;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.2s; }
+        .faq-item:nth-child(3) { animation-delay: 0.3s; }
+        .faq-item:nth-child(4) { animation-delay: 0.4s; }
+        .faq-item:nth-child(5) { animation-delay: 0.5s; }
+
+        .faq-item:hover {
+            border-color: #00d9ff;
+        }
+
+        .faq-question {
+            padding: 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #0f0f0f;
+        }
+
+        .faq-question h3 {
+            color: #e0e0e0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .faq-icon {
+            color: #00d9ff;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 2rem 2rem 2rem;
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #00d9ff;
+            margin-top: 4rem;
+        }
+
+        .contact-cta h2 {
+            color: #00d9ff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-cta p {
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+            color: #0a0a0a;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            border-top: 1px solid #1a1a1a;
+            padding: 2rem;
+            text-align: center;
+            color: #808080;
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .faq-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-cta {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            .faq-question {
+                padding: 1.5rem;
+            }
+
+            .faq-question h3 {
+                font-size: 1rem;
+            }
+
+            .contact-cta h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Portfólio</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="servicos.html">Serviços</a></li>
+                <li><a href="portfolio.html">Portfólio</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="faq.html" class="active">FAQ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1 class="page-title">Perguntas Frequentes</h1>
+        <p class="page-subtitle">Encontre respostas para as dúvidas mais comuns</p>
+
+        <!-- FAQ Categories -->
+        <div class="faq-categories">
+            <div class="category-btn">Geral</div>
+            <div class="category-btn">Serviços</div>
+            <div class="category-btn">Processo</div>
+            <div class="category-btn">Preços</div>
+        </div>
+
+        <!-- FAQ Section: Geral -->
+        <div class="faq-section">
+            <h2>Perguntas Gerais</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Quais tecnologias você domina?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Sou especializado em HTML5 e CSS3 para desenvolvimento front-end. Tenho domínio de design responsivo, Flexbox, CSS Grid, animações CSS, e boas práticas de desenvolvimento web. Durante meus 3 anos de formação em Técnico de Gestão e Programação de Sistemas Informáticos, desenvolvi competências sólidas nestas tecnologias.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Você trabalha com projetos individuais ou em equipa?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Tenho experiência em ambos os formatos. Posso trabalhar de forma independente em projetos individuais, onde demonstro minhas capacidades de organização e autonomia, ou colaborar em equipa quando o projeto exige. Minha formação incluiu trabalho tanto individual quanto colaborativo.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Qual é sua disponibilidade?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Estou disponível para novos projetos e oportunidades profissionais. Posso trabalhar em projetos de curto e longo prazo, adaptando-me às necessidades específicas de cada cliente.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section: Serviços -->
+        <div class="faq-section">
+            <h2>Sobre os Serviços</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Que tipo de sites você desenvolve?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Desenvolvo diversos tipos de sites: landing pages, sites institucionais, portfólios online, sites de serviços e páginas corporativas. Todos os projetos são desenvolvidos com HTML5 e CSS3, garantindo código limpo, design responsivo e otimização para diferentes dispositivos.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Os sites são responsivos?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Sim! Todos os sites que desenvolvo são 100% responsivos, adaptando-se perfeitamente a smartphones, tablets e desktops. Utilizo a abordagem mobile-first e testo em múltiplos dispositivos para garantir uma experiência de usuário impecável.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Oferece suporte após a entrega?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Sim, ofereço suporte pós-entrega para garantir que tudo funcione perfeitamente. Isso inclui correção de bugs, pequenos ajustes e esclarecimento de dúvidas sobre o funcionamento do site. Também ofereço serviços de manutenção contínua.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section: Processo -->
+        <div class="faq-section">
+            <h2>Processo de Trabalho</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Como funciona o processo de desenvolvimento?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    O processo segue 5 etapas: 1) Planeamento - onde discutimos suas necessidades e objetivos; 2) Design - criação do layout e identidade visual; 3) Desenvolvimento - codificação do site com HTML e CSS; 4) Testes - verificação em diferentes dispositivos; 5) Entrega - lançamento e documentação completa.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Quanto tempo leva para desenvolver um site?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    O prazo varia conforme a complexidade do projeto. Uma landing page simples pode levar 3-5 dias, enquanto um site multi-página mais complexo pode levar 2-3 semanas. Sempre estabeleço prazos claros no início do projeto.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Preciso fornecer conteúdo e imagens?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Idealmente sim, pois você conhece melhor seu negócio. No entanto, posso ajudar na estruturação do conteúdo e sugerir bancos de imagens gratuitos de qualidade. O importante é termos todo o material necessário antes de iniciar o desenvolvimento.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section: Preços -->
+        <div class="faq-section">
+            <h2>Preços e Pagamento</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Como são definidos os preços?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Os preços variam conforme a complexidade do projeto, número de páginas, funcionalidades necessárias e prazo de entrega. Após analisar suas necessidades, forneço um orçamento detalhado sem compromisso. Valorizo transparência total nos valores.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Quais formas de pagamento são aceites?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    Aceito transferência bancária e outras formas de pagamento digital. Geralmente, trabalho com 50% de entrada no início do projeto e 50% na entrega final. Para projetos maiores, podemos estabelecer um cronograma de pagamento em etapas.
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h2>Não encontrou sua resposta?</h2>
+            <p>Entre em contato comigo e terei prazer em esclarecer todas as suas dúvidas!</p>
+            <a href="contato.html" class="cta-button">Entrar em Contato</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Portfólio - Técnico de Gestão e Programação de Sistemas Informáticos. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -93,18 +93,7 @@
       justify-content: space-between;
     }
 
-    .navbar__logo {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: 1.35rem;
-      text-decoration: none;
-      background: var(--accent-gradient-text);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-      white-space: nowrap;
-    }
+
 
     .navbar__links {
       display: flex;
@@ -285,28 +274,6 @@
       gap: 20px;
     }
 
-    .hero__badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--accent-cyan);
-      background: rgba(6, 182, 212, 0.08);
-      border: 1px solid rgba(6, 182, 212, 0.2);
-      padding: 8px 18px;
-      border-radius: 24px;
-      width: fit-content;
-    }
-
-    .hero__badge::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background: var(--accent-cyan);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
 
     @keyframes pulse {
 
@@ -1173,7 +1140,6 @@
        ========================================================== -->
   <nav class="navbar" role="navigation" aria-label="Navegação principal">
     <div class="navbar__container">
-      <a href="#home" class="navbar__logo" aria-label="Ir para Home">&lt;TG-PSI /&gt;</a>
       <ul class="navbar__links">
         <li><a href="#home">Home</a></li>
         <li><a href="#sobre">Sobre</a></li>
@@ -1194,7 +1160,6 @@
       <div class="container">
         <div class="hero">
           <div class="hero__content">
-            <div class="hero__badge">Disponível para projetos</div>
             <h1 class="hero__title">
               Transformo ideias em <span>Sites</span>
             </h1>
@@ -1287,7 +1252,7 @@
           -->
           <div class="about__visual">
             <div class="about__visual-placeholder">
-              <img src="" alt="Mapa de competências">
+              <img src="Mapadeconceitos.png" alt="Mapa de competências">
 
             </div>
           </div>
@@ -1401,8 +1366,6 @@
         <div class="portfolio-grid">
           <div class="portfolio-card">
             <div class="portfolio-card__thumb">
-              <!-- thumbnail placeholder -->
-              <span>🖼️ Preview do Projeto</span>
             </div>
             <div class="portfolio-card__body">
               <h3>Landing Page Empresarial</h3>
@@ -1415,7 +1378,6 @@
 
           <div class="portfolio-card">
             <div class="portfolio-card__thumb">
-              <span>🖼️ Preview do Projeto</span>
             </div>
             <div class="portfolio-card__body">
               <h3>Dashboard de Dados</h3>
@@ -1428,7 +1390,6 @@
 
           <div class="portfolio-card">
             <div class="portfolio-card__thumb">
-              <span>🖼️ Preview do Projeto</span>
             </div>
             <div class="portfolio-card__body">
               <h3>Blog Pessoal</h3>
@@ -1441,7 +1402,6 @@
 
           <div class="portfolio-card">
             <div class="portfolio-card__thumb">
-              <span>🖼️ Preview do Projeto</span>
             </div>
             <div class="portfolio-card__body">
               <h3>E-commerce (Protótipo)</h3>
@@ -1454,7 +1414,6 @@
 
           <div class="portfolio-card">
             <div class="portfolio-card__thumb">
-              <span>🖼️ Preview do Projeto</span>
             </div>
             <div class="portfolio-card__body">
               <h3>Portfólio Fotográfico</h3>
@@ -1467,7 +1426,6 @@
 
           <div class="portfolio-card">
             <div class="portfolio-card__thumb">
-              <span>🖼️ Preview do Projeto</span>
             </div>
             <div class="portfolio-card__body">
               <h3>Formulário Multi-Step</h3>
@@ -1499,7 +1457,6 @@
         <div class="blog-grid">
           <article class="blog-card">
             <div class="blog-card__thumb">
-              <span>📝 Imagem do Artigo</span>
             </div>
             <div class="blog-card__body">
               <span class="blog-card__date">12 de Março, 2026</span>
@@ -1511,7 +1468,6 @@
 
           <article class="blog-card">
             <div class="blog-card__thumb">
-              <span>📝 Imagem do Artigo</span>
             </div>
             <div class="blog-card__body">
               <span class="blog-card__date">25 de Fevereiro, 2026</span>
@@ -1523,7 +1479,6 @@
 
           <article class="blog-card">
             <div class="blog-card__thumb">
-              <span>📝 Imagem do Artigo</span>
             </div>
             <div class="blog-card__body">
               <span class="blog-card__date">8 de Fevereiro, 2026</span>
